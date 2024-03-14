@@ -49,7 +49,7 @@ class SFTPStorage(ClosingContextManager, BaseStorage):
             "gid": setting("SFTP_STORAGE_GID"),
             "known_host_file": setting("SFTP_KNOWN_HOST_FILE"),
             "root_path": setting("SFTP_STORAGE_ROOT", ""),
-            "base_url": setting("MEDIA_URL"),
+            "base_url": setting("SFTP_BASE_URL") or setting("MEDIA_URL"),
         }
 
     def _connect(self):
@@ -117,6 +117,7 @@ class SFTPStorage(ClosingContextManager, BaseStorage):
     def _mkdir(self, path):
         """Create directory, recursing up to create parent dirs if
         necessary."""
+        print(path)
         parent = posixpath.dirname(path)
         if not self.exists(parent):
             self._mkdir(parent)
@@ -132,6 +133,7 @@ class SFTPStorage(ClosingContextManager, BaseStorage):
         """Save file via SFTP."""
         if is_seekable(content):
             content.seek(0, os.SEEK_SET)
+        print(name)
         path = self._remote_path(name)
         dirname = posixpath.dirname(path)
         if not self.exists(dirname):
