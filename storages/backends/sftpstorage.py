@@ -135,7 +135,9 @@ class SFTPStorage(ClosingContextManager, BaseStorage):
             content.seek(0, os.SEEK_SET)
         print(name)
         path = self._remote_path(name)
+        print(path)
         dirname = posixpath.dirname(path)
+        print(dirname)
         if not self.exists(dirname):
             self._mkdir(dirname)
 
