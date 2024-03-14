@@ -122,7 +122,9 @@ class SFTPStorage(ClosingContextManager, BaseStorage):
         print(f'_mkdir parent {parent}')
         if parent and not self.exists(parent):
             self._mkdir(parent)
-        self.sftp.mkdir(path)
+            
+        if not self.exists(path):
+            self.sftp.mkdir(path)
 
         if self._dir_mode is not None:
             self.sftp.chmod(path, self._dir_mode)
