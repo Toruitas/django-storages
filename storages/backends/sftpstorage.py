@@ -117,10 +117,7 @@ class SFTPStorage(ClosingContextManager, BaseStorage):
     def _mkdir(self, path):
         """Create directory, recursing up to create parent dirs if
         necessary."""
-        print(f'_mkdir path {path}')
-        
         parent = posixpath.dirname(path)
-        print(f'_mkdir parent {parent}')
 
         if parent and not self.exists(parent):
             self._mkdir(parent)
@@ -138,13 +135,10 @@ class SFTPStorage(ClosingContextManager, BaseStorage):
         """Save file via SFTP."""
         if is_seekable(content):
             content.seek(0, os.SEEK_SET)
-        print(f'_save name {name}')
 
         path = self._remote_path(name)
-        print(f'_save path {path}')
 
         dirname = posixpath.dirname(path)
-        print(f'_save dirname {dirname}')
 
         if not self.exists(dirname):  # make immediate parent
             self._mkdir(dirname)
@@ -165,13 +159,10 @@ class SFTPStorage(ClosingContextManager, BaseStorage):
             pass
 
     def exists(self, name):
-        print(f'exists name {name}')
         if not name:
             return True
         
         try:
-            remote_path = self._remote_path(name)
-            print(f'exists remote_path {remote_path}')
             self.sftp.stat(name)
             return True
         except FileNotFoundError:
