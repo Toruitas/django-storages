@@ -120,7 +120,7 @@ class SFTPStorage(ClosingContextManager, BaseStorage):
         print(f'_mkdir path {path}')
         parent = posixpath.dirname(path)
         print(f'_mkdir parent {parent}')
-        if not self.exists(parent):
+        if parent and not self.exists(parent):
             self._mkdir(parent)
         self.sftp.mkdir(path)
 
