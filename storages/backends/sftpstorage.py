@@ -130,6 +130,7 @@ class SFTPStorage(ClosingContextManager, BaseStorage):
 
     def _save(self, name, content):
         """Save file via SFTP."""
+        print(f"_save for {name}")
         if is_seekable(content):
             content.seek(0, os.SEEK_SET)
         path = self._remote_path(name)
@@ -153,6 +154,8 @@ class SFTPStorage(ClosingContextManager, BaseStorage):
             pass
 
     def exists(self, name):
+        print(f"exists: Checking if '{name}' exists")
+        print(f"exists: Statting {self._remote_path(name)}")
         try:
             self.sftp.stat(self._remote_path(name))
             return True
